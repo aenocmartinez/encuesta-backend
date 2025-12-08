@@ -76,11 +76,20 @@ public class CrowdsignalProveedorResultadosEncuesta implements ProveedorResultad
         try {
             JsonNode root = objectMapper.readTree(responseBody);
 
-            JsonNode answersNode = root
+            JsonNode demandNode = root
                     .path("pdResponse")
                     .path("demands")
-                    .path("demand")
-                    .get(0)
+                    .path("demand");
+
+            // Puede venir como array o como objeto
+            if (demandNode.isArray()) {
+                if (demandNode.size() == 0) {
+                    throw new RuntimeException("La respuesta no contiene ningún 'demand'. JSON: " + responseBody);
+                }
+                demandNode = demandNode.get(0);
+            }
+
+            JsonNode answersNode = demandNode
                     .path("result")
                     .path("answers")
                     .path("answer");
@@ -97,6 +106,9 @@ public class CrowdsignalProveedorResultadosEncuesta implements ProveedorResultad
                     Respuesta respuesta = new Respuesta(id, texto, total, porcentaje);
                     respuestas.add(respuesta);
                 }
+            } else {
+                throw new RuntimeException(
+                        "No se encontraron respuestas en la respuesta de Crowdsignal. JSON: " + responseBody);
             }
 
             return new Encuesta(encuestaId, respuestas);
