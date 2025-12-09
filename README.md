@@ -38,7 +38,7 @@ src/
      │       │   └─ port/               # Puertos (Interfaces)
      │       └─ infrastructure/         # Adaptador Crowdsignal
      └─ resources/
-         ├─ config.properties           # Credenciales reales (ignorado por git)
+         ├─ config.properties           # Credenciales
          └─ config.example.properties   # Plantilla para el revisor
 ```
 
@@ -91,9 +91,6 @@ encuesta.id=10503173
 crowdsignal.partnerGuid=TU_PARTNER_GUID
 crowdsignal.userCode=TU_USER_CODE
 ```
-
-⚠️ **Importante**:  
-`config.properties` contiene credenciales y **no debe subir al repositorio**.
 
 ---
 
@@ -204,6 +201,3 @@ Proyecto desarrollado como **Prueba Backend** por:
 https://github.com/aenocmartinez/encuesta-backend
 
 ---
-
-## Licencia
-Uso académico y demostrativo. No usar credenciales reales en repositorios públicos.
