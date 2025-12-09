@@ -31,3 +31,6 @@ src/main/resources/config.properties
 
 ### Optional cache ###
 .cache/
+
+### VS Code ###
+.vscode/
