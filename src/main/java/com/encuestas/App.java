@@ -60,15 +60,15 @@ public class App {
         System.out.println("Para registrar un voto se abrirá la encuesta en el navegador:");
         System.out.println(url);
 
-        if (Desktop.isDesktopSupported()) {
-            try {
-                Desktop.getDesktop().browse(new URI(url));
-            } catch (IOException | URISyntaxException e) {
-                System.out.println("No se pudo abrir el navegador.");
-                System.out.println("Abra manualmente esta URL: " + url);
-            }
-        } else {
+        if (!Desktop.isDesktopSupported()) {
             System.out.println("Su sistema no permite abrir el navegador desde Java.");
+            System.out.println("Abra manualmente esta URL: " + url);
+        }
+
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            System.out.println("No se pudo abrir el navegador.");
             System.out.println("Abra manualmente esta URL: " + url);
         }
     }
@@ -88,7 +88,7 @@ public class App {
         for (Respuesta r : encuesta.getRespuestas()) {
             double porcentajeCalculado = totalVotos > 0
                     ? (r.getTotal() * 100.0) / totalVotos
-                    : r.getPorcentaje(); // respaldo si totalVotos fuera 0
+                    : r.getPorcentaje();
 
             System.out.printf(
                     "%-20s | %5d | %9.2f%%%n",

@@ -74,12 +74,10 @@ public class CrowdsignalProveedorResultadosEncuesta implements ProveedorResultad
 
     private Encuesta parsearEncuesta(String encuestaId, String responseBody) {
         try {
+
             JsonNode root = objectMapper.readTree(responseBody);
 
-            JsonNode demandNode = root
-                    .path("pdResponse")
-                    .path("demands")
-                    .path("demand");
+            JsonNode demandNode = root.path("pdResponse").path("demands").path("demand");
 
             // Puede venir como array o como objeto
             if (demandNode.isArray()) {
@@ -89,29 +87,25 @@ public class CrowdsignalProveedorResultadosEncuesta implements ProveedorResultad
                 demandNode = demandNode.get(0);
             }
 
-            JsonNode answersNode = demandNode
-                    .path("result")
-                    .path("answers")
-                    .path("answer");
+            JsonNode answersNode = demandNode.path("result").path("answers").path("answer");
 
-            List<Respuesta> respuestas = new ArrayList<>();
-
-            if (answersNode.isArray()) {
-                for (JsonNode answerNode : answersNode) {
-                    long id = answerNode.path("id").asLong();
-                    String texto = answerNode.path("text").asText();
-                    int total = answerNode.path("total").asInt();
-                    double porcentaje = answerNode.path("percent").asDouble();
-
-                    Respuesta respuesta = new Respuesta(id, texto, total, porcentaje);
-                    respuestas.add(respuesta);
-                }
-            } else {
+            if (!answersNode.isArray()) {
                 throw new RuntimeException(
                         "No se encontraron respuestas en la respuesta de Crowdsignal. JSON: " + responseBody);
             }
 
+            List<Respuesta> respuestas = new ArrayList<>();
+            for (JsonNode answerNode : answersNode) {
+                long id = answerNode.path("id").asLong();
+                String texto = answerNode.path("text").asText();
+                int total = answerNode.path("total").asInt();
+                double porcentaje = answerNode.path("percent").asDouble();
+
+                respuestas.add(new Respuesta(id, texto, total, porcentaje));
+            }
+
             return new Encuesta(encuestaId, respuestas);
+
         } catch (IOException e) {
             throw new RuntimeException("Error al parsear la respuesta de Crowdsignal", e);
         }
