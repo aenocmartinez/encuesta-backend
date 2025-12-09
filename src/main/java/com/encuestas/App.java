@@ -13,9 +13,9 @@ import java.util.Scanner;
 
 public class App {
 
-    private static final String ENCUESTA_ID = "10503173";
-    private static final String PARTNER_GUID = "5719aa21-c585-5aa9-42dd-00005547ef78";
-    private static final String USER_CODE = "$P$BzM55aacFGir8JbSGtmXdZ7WGnKXiV1";
+    private static final String ENCUESTA_ID = Config.get("encuesta.id");
+    private static final String PARTNER_GUID = Config.get("crowdsignal.partnerGuid");
+    private static final String USER_CODE = Config.get("crowdsignal.userCode");
 
     public static void main(String[] args) {
 

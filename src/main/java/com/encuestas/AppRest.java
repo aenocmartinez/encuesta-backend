@@ -8,11 +8,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AppRest {
 
+    private static final String PARTNER_GUID = Config.get("crowdsignal.partnerGuid");
+    private static final String USER_CODE = Config.get("crowdsignal.userCode");
+
     public static void main(String[] args) {
 
-        var proveedor = new CrowdsignalProveedorResultadosEncuesta(
-                "5719aa21-c585-5aa9-42dd-00005547ef78",
-                "$P$BzM55aacFGir8JbSGtmXdZ7WGnKXiV1");
+        var proveedor = new CrowdsignalProveedorResultadosEncuesta(PARTNER_GUID, USER_CODE);
 
         var servicio = new ConsultarResultadosEncuestaService(proveedor);
 

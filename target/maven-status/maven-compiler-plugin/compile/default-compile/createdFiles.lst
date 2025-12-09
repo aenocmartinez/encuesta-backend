@@ -3,5 +3,6 @@ com/encuestas/AppRest.class
 com/encuestas/App.class
 com/encuestas/domain/model/Encuesta.class
 com/encuestas/infrastructure/CrowdsignalProveedorResultadosEncuesta.class
+com/encuestas/Config.class
 com/encuestas/application/ConsultarResultadosEncuestaService.class
 com/encuestas/domain/port/ProveedorResultadosEncuesta.class
